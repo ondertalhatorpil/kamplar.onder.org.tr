@@ -1,0 +1,56 @@
+services:
+  backend:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: onderkamp-backend
+    restart: unless-stopped
+    ports:
+      - "8082:8082"
+    environment:
+      TZ: Europe/Istanbul
+      PORT: 8082
+      NODE_ENV: development
+      DB_HOST: local-mysql
+      DB_PORT: 3306
+      DB_NAME: onderkamp
+      DB_USER: root
+      DB_PASSWORD: devroot123
+      JWT_SECRET: onderkamp_super_guclu_jwt_anahtari_2026
+      JWT_EXPIRES_IN: 1d
+      CLIENT_URL: http://localhost:5173
+      PARTICIPANT_FILE_MAX_SIZE: 5242880
+      COMMITMENT_FILE_MAX_SIZE: 10485760
+      DOCUMENT_TOKEN_EXPIRES_IN_DAYS: 30
+      SMS_PROVIDER: ${SMS_PROVIDER}
+      SMS_BASE_URL: ${SMS_BASE_URL}
+      SMS_USERNAME: ${SMS_USERNAME}
+      SMS_PASSWORD: ${SMS_PASSWORD}
+      SMS_SENDER: ${SMS_SENDER}
+      ADMIN_NOTIFICATION_PHONE: ${ADMIN_NOTIFICATION_PHONE}
+      SEED_PASSWORD_FADENYIGIT: ${SEED_PASSWORD_FADENYIGIT}
+      SEED_PASSWORD_MUCAHITYUCEL: ${SEED_PASSWORD_MUCAHITYUCEL}
+      SEED_PASSWORD_BUYUKCEKMECEMERKEZI: ${SEED_PASSWORD_BUYUKCEKMECEMERKEZI}
+      SEED_PASSWORD_BURSAKAMPMERKEZI: ${SEED_PASSWORD_BURSAKAMPMERKEZI}
+    volumes:
+      - ./server/uploads:/app/uploads
+      - ./server/templates:/app/templates
+    networks:
+      - local-db_default
+
+  frontend:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: onderkamp-frontend
+    restart: unless-stopped
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+    networks:
+      - local-db_default
+
+networks:
+  local-db_default:
+    external: true

@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+
+# Build
+dist/
+
+# Environment
+.env
+.env.local
+.env.production
+
+# Uploads (kullanıcı dosyaları)
+server/uploads/participant-files/*
+server/uploads/commitment-documents/*
+server/uploads/program-files/*
+!server/uploads/program-files/.gitkeep
+server/uploads/parental-consents/*
+!server/uploads/parental-consents/.gitkeep
+!server/uploads/participant-files/.gitkeep
+!server/uploads/commitment-documents/.gitkeep
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/

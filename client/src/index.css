@@ -1,0 +1,262 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Manrope';
+  src: url('/fonts/Manrope-latin-ext.woff2') format('woff2');
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Manrope';
+  src: url('/fonts/Manrope-latin.woff2') format('woff2');
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  /* react-day-picker kendi mavi vurgu rengini kullanır; site kırmızısına bağla */
+  .rdp {
+    --rdp-accent-color: #d02a2b;
+    --rdp-background-color: #fbe4e4;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    @apply bg-gray-50 text-gray-900;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary-700 hover:bg-primary-800 text-white font-medium px-5 py-2.5 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  
+  .btn-secondary {
+    @apply bg-white hover:bg-gray-50 text-gray-700 font-medium px-5 py-2.5 rounded-lg border border-gray-300 transition-colors duration-200;
+  }
+
+  /* Site-wide button hover: a colour layer slides up from the bottom and
+     fills the button. Default fill is brand red (pair with hover:text-white).
+     Red buttons use .btn-fill-white instead: white fill, paired with a
+     border in the button's red and hover:text-<red> so the button turns
+     white with a red outline. .btn-fill-dark (dark red) is for white buttons
+     sitting on a red background. Disabled buttons don't animate. */
+  .btn-fill {
+    @apply relative isolate overflow-hidden;
+  }
+  .btn-fill::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-color: var(--btn-fill, theme('colors.brand.DEFAULT'));
+    transform: translateY(101%);
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .btn-fill:hover:not(:disabled)::before,
+  .btn-fill:focus-visible::before {
+    transform: translateY(0);
+  }
+  .btn-fill-dark {
+    --btn-fill: theme('colors.navy.600');
+  }
+  .btn-fill-white {
+    --btn-fill: #fff;
+  }
+
+  .btn-danger {
+    @apply bg-red-600 hover:bg-red-800 text-white font-medium px-5 py-2.5 rounded-lg transition-colors duration-200;
+  }
+  
+  .input-field {
+    @apply w-full border border-gray-300 rounded-lg px-4 py-2.5 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200;
+  }
+
+  .input-error {
+    @apply border-red-400 focus:ring-red-400;
+  }
+  
+  .card {
+    @apply bg-white rounded-xl shadow-sm border border-gray-100;
+  }
+
+  .badge-pending {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800;
+  }
+
+  .badge-forwarded {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800;
+  }
+
+  .badge-hq-approved {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-teal-100 text-teal-800;
+  }
+
+  .badge-documents-pending {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-sky-100 text-sky-800;
+  }
+
+  .badge-documents-review {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-violet-100 text-violet-800;
+  }
+
+  .badge-approved {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800;
+  }
+
+  .badge-rejected {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800;
+  }
+
+  .badge-cancelled {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-700;
+  }
+
+  .badge-completed {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-rose-100 text-rose-800;
+  }
+}
+
+/* Hides the scrollbar on horizontally-swipeable rows (step carousels etc.)
+   while keeping the element natively scrollable via touch/trackpad/drag. */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+@layer components {
+  .day-range-start {
+    @apply rounded-l-md;
+  }
+  .day-range-end {
+    @apply rounded-r-md;
+  }
+}
+
+/* Custom checkbox (Uiverse.io / bociKond, red variant) */
+.checkbox-container {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  position: relative;
+  user-select: none;
+}
+
+.checkbox-container input {
+  position: absolute;
+  opacity: 0;
+  height: 0;
+  width: 0;
+}
+
+.checkbox-container .checkmark {
+  position: relative;
+  flex-shrink: 0;
+  height: 1.3em;
+  width: 1.3em;
+  background-color: #ccc;
+  border-radius: 50%;
+  transition: 300ms;
+}
+
+.checkbox-container input:checked ~ .checkmark {
+  background-color: #d02a2b;
+  border-radius: 0.5rem;
+  animation: checkbox-pulse 500ms ease-in-out;
+}
+
+.checkbox-container .checkmark::after {
+  content: "";
+  position: absolute;
+  display: none;
+  left: 50%;
+  top: 50%;
+  width: 0.25em;
+  height: 0.5em;
+  border: solid #fff;
+  border-width: 0 0.15em 0.15em 0;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.checkbox-container input:checked ~ .checkmark::after {
+  display: block;
+}
+
+@keyframes checkbox-pulse {
+  0% {
+    box-shadow: 0 0 0 #d02a2b90;
+    rotate: 20deg;
+  }
+  50% {
+    rotate: -20deg;
+  }
+  75% {
+    box-shadow: 0 0 0 10px #d02a2b60;
+  }
+  100% {
+    box-shadow: 0 0 0 13px #d02a2b30;
+    rotate: 0;
+  }
+}
+
+/* Bouncing blob accent (Uiverse.io / dylanharriscameron, red variant) —
+   drifts between the four quadrants behind a frosted-glass card panel. */
+@keyframes blob-bounce {
+  0% {
+    transform: translate(-100%, -100%) translate3d(0, 0, 0);
+  }
+  25% {
+    transform: translate(-100%, -100%) translate3d(100%, 0, 0);
+  }
+  50% {
+    transform: translate(-100%, -100%) translate3d(100%, 100%, 0);
+  }
+  75% {
+    transform: translate(-100%, -100%) translate3d(0, 100%, 0);
+  }
+  100% {
+    transform: translate(-100%, -100%) translate3d(0, 0, 0);
+  }
+}
