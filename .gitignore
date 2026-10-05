@@ -1,32 +1,47 @@
 # Dependencies
 node_modules/
+.npm/
+.pnpm-store/
+.yarn/
 
 # Build
 dist/
-
-# Environment
-.env
-.env.local
-.env.production
+build/
+coverage/
+.vite/
+*.tsbuildinfo
 
 # Uploads (kullanıcı dosyaları)
 server/uploads/participant-files/*
 server/uploads/commitment-documents/*
 server/uploads/program-files/*
-!server/uploads/program-files/.gitkeep
 server/uploads/parental-consents/*
-!server/uploads/parental-consents/.gitkeep
-!server/uploads/participant-files/.gitkeep
-!server/uploads/commitment-documents/.gitkeep
+!server/uploads/*/.gitkeep
 
 # Logs
+logs/
 *.log
 npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 
 # OS
 .DS_Store
 Thumbs.db
+desktop.ini
 
-# IDE
+# IDE / Editor
 .vscode/
 .idea/
+*.swp
+*.swo
+*~
+
+# Claude Code yerel ayarları
+.claude/
+
+# Temp
+tmp/
+temp/
+*.tmp
